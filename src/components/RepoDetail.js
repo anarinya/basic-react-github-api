@@ -16,20 +16,19 @@ export default class RepoDetail extends Component {
     const { repo } = nextProps.match.params;
     // Reset error messages
     this.setState({ error: null });
-
-    axios
-      .get(`https://api.github.com/orgs/${repo}/repos`)
-      .then(({ data }) => 
-        this.setState({ repos: data }))
-      .catch(e => this.setState({ error: e.toString() }));
+    this.grabData(repo);
   }
 
   componentDidMount() {
     const { repo } = this.props.match.params;
+    this.grabData(repo);
+  }
+
+  grabData(repo) {
     axios
       .get(`https://api.github.com/orgs/${repo}/repos`)
       .then(({ data }) => this.setState({ repos: data }))
-      .catch(e => this.setState({ error: e.toString() }));
+      .catch(e => this.setState({ error: e.toString() })); 
   }
 
   renderRepos() {
